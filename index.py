@@ -1,3 +1,4 @@
+import requests, bs4
 from selenium import webdriver
 from argparse import ArgumentParser
 
@@ -17,5 +18,11 @@ try:
 		password.send_keys(args.password)
 		password.submit();
 except:
-		print('Was not able to find an element with that name.')
+		print('Was not able to log in.')
+
+browser.get('https://beyondthewhiteboard.com/members/114549/workout_sessions')
+# print(browser.get_cookies())
+res = requests.get('https://beyondthewhiteboard.com/members/114549/workout_sessions?page=2')
+soup = bs4.BeautifulSoup(res.content, 'html.parser')
+print(soup.find_all('li', 'workout_session'))
 browser.quit()
